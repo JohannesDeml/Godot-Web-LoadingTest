@@ -1,0 +1,26 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="Godot-WebGL-LoadingTest"
+run/main_scene="res://Scenes/main.tscn"
+config/features=PackedStringArray("4.1", "GL Compatibility")
+config/icon="res://Textures/icon.svg"
+
+[dotnet]
+
+project/assembly_name="GodotWebGL-LoadingTest"
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+environment/defaults/default_clear_color=Color(1, 1, 1, 1)

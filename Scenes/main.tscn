@@ -1,0 +1,106 @@
+[gd_scene load_steps=16 format=3 uid="uid://ccn457idu3pwf"]
+
+[ext_resource type="Script" path="res://Scripts/ConstantRotation.gd" id="1_0pqr8"]
+[ext_resource type="Material" uid="uid://cf58l6x4ljvh6" path="res://Materials/floor.tres" id="2_gsolv"]
+[ext_resource type="PackedScene" uid="uid://df4cc8t6faa4v" path="res://Prefabs/invisible_wall_pivot.tscn" id="3_5wp4y"]
+[ext_resource type="Script" path="res://Scripts/CubeSpawner.gd" id="4_51lvi"]
+[ext_resource type="Script" path="res://Scripts/RotatingPhysicsCube.gd" id="5_ggk1f"]
+[ext_resource type="Material" uid="uid://c4mbfud2xkkn4" path="res://Materials/cubemat.tres" id="6_xjatr"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_hfqt7"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_g7oir"]
+size = Vector3(2, 0.1, 2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fhpad"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_8p68f"]
+
+[sub_resource type="Gradient" id="Gradient_db22f"]
+offsets = PackedFloat32Array(0, 0.428212, 1)
+colors = PackedColorArray(0.335726, 0.259179, 0.154849, 1, 0.385823, 0.506753, 0.575637, 1, 0.893079, 0.953996, 0.993492, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_tmt0h"]
+gradient = SubResource("Gradient_db22f")
+fill_from = Vector2(0, 1)
+fill_to = Vector2(0, 0)
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_mtalp"]
+panorama = SubResource("GradientTexture2D_tmt0h")
+
+[sub_resource type="Sky" id="Sky_216og"]
+sky_material = SubResource("PanoramaSkyMaterial_mtalp")
+
+[sub_resource type="Environment" id="Environment_4ohx7"]
+sky = SubResource("Sky_216og")
+sky_custom_fov = 48.8
+ambient_light_source = 3
+ambient_light_color = Color(0.698039, 0.764706, 0.933333, 1)
+
+[node name="root" type="Node3D"]
+
+[node name="CameraCenter" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 1, 0)
+script = ExtResource("1_0pqr8")
+rotationAxis = Vector3(0, 1, 0)
+degreesPerSecond = -45
+
+[node name="Camera3D" type="Camera3D" parent="CameraCenter"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
+fov = 60.0
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.866025, -0.383022, 0.321394, 0, 0.642788, 0.766045, -0.5, -0.663414, 0.556671, 0, 3, 0)
+shadow_enabled = true
+
+[node name="Floor" type="Node3D" parent="."]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
+
+[node name="FloorCollider" type="StaticBody3D" parent="Floor"]
+
+[node name="FloorMesh" type="MeshInstance3D" parent="Floor/FloorCollider"]
+material_override = ExtResource("2_gsolv")
+mesh = SubResource("PlaneMesh_hfqt7")
+skeleton = NodePath("../../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor/FloorCollider"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
+shape = SubResource("BoxShape3D_g7oir")
+
+[node name="InvisibleWalls" type="Node3D" parent="."]
+
+[node name="InvisibleWallPivot" parent="InvisibleWalls" instance=ExtResource("3_5wp4y")]
+
+[node name="InvisibleWallPivot2" parent="InvisibleWalls" instance=ExtResource("3_5wp4y")]
+transform = Transform3D(-5.96046e-08, 0, 1, 0, 1, 0, -1, 0, -5.96046e-08, 0, 4, 0)
+
+[node name="InvisibleWallPivot3" parent="InvisibleWalls" instance=ExtResource("3_5wp4y")]
+transform = Transform3D(-1, 0, -1.19209e-07, 0, 1, 0, 1.19209e-07, 0, -1, 0, 4, 0)
+
+[node name="InvisibleWallPivot4" parent="InvisibleWalls" instance=ExtResource("3_5wp4y")]
+transform = Transform3D(1.62921e-07, 0, -1, 0, 1, 0, 1, 0, 1.62921e-07, 0, 4, 0)
+
+[node name="CubeSpawner" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8, 0)
+script = ExtResource("4_51lvi")
+SpawnCooldown = 0.5
+MaxCubes = 150
+
+[node name="RotatingCube" type="CharacterBody3D" parent="."]
+transform = Transform3D(0.853553, -0.146447, 0.5, 0.5, 0.5, -0.707107, -0.146447, 0.853553, 0.5, 0, 1, 0)
+script = ExtResource("5_ggk1f")
+rotationAxis = Vector3(0, 1, 0)
+degreesPerSecond = -90
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RotatingCube"]
+transform = Transform3D(0.984347, 0.127818, 0.121337, -0.130169, 0.991423, 0.0116177, -0.118811, -0.0272301, 0.992543, 0, 0, 0)
+shape = SubResource("BoxShape3D_fhpad")
+
+[node name="RotatingCubeMesh" type="MeshInstance3D" parent="RotatingCube"]
+transform = Transform3D(1, -4.47035e-08, -7.45058e-09, -4.47035e-08, 1, 2.98023e-08, 0, 0, 1, 0, 0, 0)
+material_override = ExtResource("6_xjatr")
+mesh = SubResource("BoxMesh_8p68f")
+skeleton = NodePath("../..")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_4ohx7")

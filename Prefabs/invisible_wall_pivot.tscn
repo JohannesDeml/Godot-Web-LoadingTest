@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://df4cc8t6faa4v"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_kyq0n"]
+
+[node name="InvisibleWallPivot" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 0.1, 0, 0, 0)
+shape = SubResource("BoxShape3D_kyq0n")
