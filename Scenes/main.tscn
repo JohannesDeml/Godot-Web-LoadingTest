@@ -100,7 +100,7 @@ shape = SubResource("BoxShape3D_fhpad")
 transform = Transform3D(1, -4.47035e-08, -7.45058e-09, -4.47035e-08, 1, 2.98023e-08, 0, 0, 1, 0, 0, 0)
 material_override = ExtResource("6_xjatr")
 mesh = SubResource("BoxMesh_8p68f")
-skeleton = NodePath("../..")
+skeleton = NodePath("")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_4ohx7")
