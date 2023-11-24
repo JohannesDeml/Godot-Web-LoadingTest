@@ -2,7 +2,7 @@
 
 ![Preview](./preview.png)
 
-[![](https://img.shields.io/github/release-date/JohannesDeml/Godot-WebGL-LoadingTest.svg)](https://github.com/JohannesDeml/UnityWebGL-LoadingTest/releases) [![Godot 4.1.2](https://img.shields.io/badge/godot-4.1.2-green.svg?logo=godot-engine&logoColor=white&cacheSeconds=2592000)](https://godotengine.org/download/archive/4.1.2-stable/)
+[![](https://img.shields.io/github/release-date/JohannesDeml/Godot-WebGL-LoadingTest.svg)](https://github.com/JohannesDeml/Godot-WebGL-LoadingTest/releases) [![Godot 4.1.2](https://img.shields.io/badge/godot-4.1.2-green.svg?logo=godot-engine&logoColor=white&cacheSeconds=2592000)](https://godotengine.org/download/archive/4.1.2-stable/)
 
 *Testing Godot's WebGL size and loading times* - 🚧 Work in progress 🚧  
 
