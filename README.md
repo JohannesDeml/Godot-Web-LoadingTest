@@ -8,6 +8,7 @@
 
 * [Overview page of all builds](https://deml.io/experiments/godot-webgl/)
 * [Implementation in Unity](https://github.com/JohannesDeml/UnityWebGL-LoadingTest)
+* [Godot Forum Thread](https://godotforums.org/d/37304-gzip-brotli-compression-with-custom-template)
 
 
 ## Features
@@ -17,9 +18,25 @@
 
 ## Live Demos
 
+### Default
 Version | Size | Link
 --- | --- | ---
-4.1.2 | 27.12 MB | https://deml.io/experiments/unity-webgl/2022.2.12f1-webgl2
+4.1.2 | 27.12 MB | https://deml.io/experiments/godot-webgl/4.1.2-default
+
+### Custom Template
+Version | Size | Link
+--- | --- | ---
+4.1.2 | 25.04 MB | https://deml.io/experiments/godot-webgl/4.1.2-custom-template
+
+### wasm-opt
+Version | Size | Link
+--- | --- | ---
+4.1.2 | 23.13 MB | https://deml.io/experiments/godot-webgl/4.1.2-wasm-opt
+
+### Debug
+Version | Size | Link
+--- | --- | ---
+4.1.2 | 46.84 MB | https://deml.io/experiments/godot-webgl/4.1.2-debug
 
 ## Platform Compatibility
 
@@ -38,14 +55,10 @@ Version | Size | Link
 ## Notes
 
 * This is very much work in progress. I'm mostly developing with Unity and the comparison to my [unity webgl project](https://github.com/JohannesDeml/UnityWebGL-LoadingTest) might not be fair, since I have a lot more experience there and also fine-tuned it over the last years.
-* I haven't come around to use brotli or gzip compression (I would like to have it baked in the file similar to Unity's solution), therefore download sizes are a lot bigger than they need to be
-* Starting the engine takes a long time - with a custom export template that does not include all engine features this should be faster, I hope I will get to that
+* I haven't come around to use brotli or gzip compression (I would like to have it baked in the file similar to Unity's solution), therefore download sizes are a lot bigger than they need to be - With a test to compress an optimized build with brotli I would get to 4MB, I just need to find out how to load it now.
+* Starting the engine takes a long time - with a custom export template that does not include all engine features this should be faster - You can find one [here](https://deml.io/experiments/godot-webgl/4.1.2-custom-template)
 * Exporting the project is a bliss compared to Unity, it is finished in a second while for Unity it takes 10+ minutes on my laptop.
 * In Godot 4.1 shadows are not yet supported on WebGL (Shadows do work for Godot 3.5)
-
-## Older versions
-
-You can find a list of all live builds with their sizes over here: https://deml.io/experiments/godot-webgl/
 
 ## License
 
