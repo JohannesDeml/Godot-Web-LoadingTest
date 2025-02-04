@@ -36,7 +36,11 @@ jobs:
           if [[ $GITHUB_REF == refs/tags/* ]]; then
             echo "VERSION=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_OUTPUT
           else
-            echo "VERSION=${{ steps.set_godot_version.outputs.VERSION }}-webgl-main" >> $GITHUB_OUTPUT
+            VERSION="${{ steps.set_godot_version.outputs.VERSION }}"
+            if [[ $VERSION =~ ^[0-9]+\.[0-9]+$ ]]; then
+              VERSION="${VERSION}.0"
+            fi
+            echo "VERSION=$VERSION-webgl-main" >> $GITHUB_OUTPUT
           fi
 
       - name: Set target name
