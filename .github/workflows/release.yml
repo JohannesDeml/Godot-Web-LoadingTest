@@ -86,6 +86,9 @@ jobs:
           cd godot
           godot --headless --export-release "Web" ../build/web/index.html
 
+      - name: Copy logo from template to build
+        run: cp godot/WebGLTemplates/Release/logo.svg build/web/logo.svg
+
       - uses: actions/upload-artifact@v4
         with:
           name: ${{ needs.variables.outputs.BUILD_NAME }}
