@@ -24,11 +24,10 @@ jobs:
       - name: Set godot version
         id: set_godot_version
         run: |
-          echo "Debug: Showing the matching line"
+          echo "Full project line with version"
           grep 'config/features=PackedStringArray' godot/project.godot
 
           GODOT_VERSION=$(grep 'config/features=PackedStringArray' godot/project.godot | grep -o '"4\.[0-9]*"' | head -n 1 | tr -d '"')
-          echo "Debug: Extracted version: $GODOT_VERSION"
           echo "VERSION=$GODOT_VERSION" >> $GITHUB_OUTPUT
 
       - name: Set tag
@@ -61,6 +60,26 @@ jobs:
         with:
           fetch-depth: 0
           lfs: true
+
+      - name: Check export templates directory
+        run: |
+          echo "Checking if export templates directory exists..."
+          if [ -d ~/.local/share/godot/export_templates ]; then
+            echo "Directory exists. Contents:"
+            ls -la ~/.local/share/godot/export_templates/
+          else
+            echo "Directory does not exist"
+          fi
+
+      - name: Check export templates root directory
+        run: |
+          echo "Checking if export templates root directory exists..."
+          if [ -d /root/.local/share/godot/export_templates/ ]; then
+            echo "Directory exists. Contents:"
+            ls -la /root/.local/share/godot/export_templates/
+          else
+            echo "Directory does not exist"
+          fi
 
       - name: Build project
         run: |
