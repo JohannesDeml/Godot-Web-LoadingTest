@@ -36,7 +36,7 @@ jobs:
           if [[ $GITHUB_REF == refs/tags/* ]]; then
             echo "VERSION=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_OUTPUT
           else
-            echo "VERSION=${{ steps.set_godot_version.outputs.GODOT_VERSION }}-webgl-master" >> $GITHUB_OUTPUT
+            echo "VERSION=${{ steps.set_godot_version.outputs.VERSION }}-webgl-main" >> $GITHUB_OUTPUT
           fi
 
       - name: Set target name
@@ -45,7 +45,7 @@ jobs:
 
       - name: Log variables
         run: |
-          echo "GODOT_VERSION -> ${{ steps.set_godot_version.outputs.GODOT_VERSION }}"
+          echo "GODOT_VERSION -> ${{ steps.set_godot_version.outputs.VERSION }}"
           echo "TAG -> ${{ steps.set_tag.outputs.VERSION }}"
           echo "BUILD_NAME -> ${{ steps.set_build_name.outputs.VERSION }}"
 
