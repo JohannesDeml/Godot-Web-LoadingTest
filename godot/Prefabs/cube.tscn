@@ -9,10 +9,10 @@
 [node name="Cube" type="RigidBody3D"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(0.984347, 0.127818, 0.121337, -0.130169, 0.991423, 0.0116177, -0.118811, -0.0272301, 0.992543, 0, 0, 0)
+transform = Transform3D(0.393739, 0.0511273, 0.0485347, -0.0520676, 0.39657, 0.00464708, -0.0475244, -0.010892, 0.397017, 0, 0, 0)
 shape = SubResource("BoxShape3D_fhpad")
 
 [node name="CubeMesh" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, -1.49012e-08, -2.23517e-08, -1.49012e-08, 1, 0, 3.72529e-08, 2.98023e-08, 1, 0, 0, 0)
+transform = Transform3D(0.4, 5.96048e-09, -1.49012e-08, -5.96048e-09, 0.4, -1.19209e-08, 1.49012e-08, 1.19209e-08, 0.4, 0, 0, 0)
 material_override = ExtResource("1_74lno")
 mesh = SubResource("BoxMesh_8p68f")

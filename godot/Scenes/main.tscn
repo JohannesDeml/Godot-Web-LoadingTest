@@ -1,10 +1,11 @@
-[gd_scene load_steps=16 format=3 uid="uid://ccn457idu3pwf"]
+[gd_scene load_steps=17 format=3 uid="uid://ccn457idu3pwf"]
 
 [ext_resource type="Script" path="res://Scripts/ConstantRotation.gd" id="1_0pqr8"]
 [ext_resource type="Material" uid="uid://cf58l6x4ljvh6" path="res://Materials/floor.tres" id="2_gsolv"]
 [ext_resource type="PackedScene" uid="uid://df4cc8t6faa4v" path="res://Prefabs/invisible_wall_pivot.tscn" id="3_5wp4y"]
-[ext_resource type="Script" path="res://Scripts/CubeSpawner.gd" id="4_51lvi"]
+[ext_resource type="Script" path="res://Scripts/ObjectSpawnController.gd" id="4_5yjmn"]
 [ext_resource type="Script" path="res://Scripts/RotatingPhysicsCube.gd" id="5_ggk1f"]
+[ext_resource type="PackedScene" uid="uid://c4mf831i546p5" path="res://Prefabs/cube_spawner.tscn" id="5_u6kan"]
 [ext_resource type="Material" uid="uid://c4mbfud2xkkn4" path="res://Materials/cubemat.tres" id="6_xjatr"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_hfqt7"]
@@ -32,6 +33,7 @@ panorama = SubResource("GradientTexture2D_tmt0h")
 sky_material = SubResource("PanoramaSkyMaterial_mtalp")
 
 [sub_resource type="Environment" id="Environment_4ohx7"]
+background_color = Color(1, 1, 1, 1)
 sky = SubResource("Sky_216og")
 sky_custom_fov = 48.8
 ambient_light_source = 3
@@ -51,6 +53,7 @@ fov = 60.0
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.866025, -0.383022, 0.321394, 0, 0.642788, 0.766045, -0.5, -0.663414, 0.556671, 0, 3, 0)
+light_energy = 0.3
 shadow_enabled = true
 
 [node name="Floor" type="Node3D" parent="."]
@@ -80,24 +83,24 @@ transform = Transform3D(-1, 0, -1.19209e-07, 0, 1, 0, 1.19209e-07, 0, -1, 0, 4, 
 [node name="InvisibleWallPivot4" parent="InvisibleWalls" instance=ExtResource("3_5wp4y")]
 transform = Transform3D(1.62921e-07, 0, -1, 0, 1, 0, 1, 0, 1.62921e-07, 0, 4, 0)
 
-[node name="CubeSpawner" type="Node3D" parent="."]
+[node name="Spawners" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8, 0)
-script = ExtResource("4_51lvi")
-SpawnCooldown = 0.5
-MaxCubes = 150
+script = ExtResource("4_5yjmn")
+spawner_scene = ExtResource("5_u6kan")
 
 [node name="RotatingCube" type="CharacterBody3D" parent="."]
-transform = Transform3D(0.853553, -0.146447, 0.5, 0.5, 0.5, -0.707107, -0.146447, 0.853553, 0.5, 0, 1, 0)
+transform = Transform3D(0.853553, -0.146447, 0.5, 0.5, 0.5, -0.707107, -0.146447, 0.853553, 0.5, 0, 0, 0)
+slide_on_ceiling = false
 script = ExtResource("5_ggk1f")
 rotationAxis = Vector3(0, 1, 0)
 degreesPerSecond = -90
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="RotatingCube"]
-transform = Transform3D(0.984347, 0.127818, 0.121337, -0.130169, 0.991423, 0.0116177, -0.118811, -0.0272301, 0.992543, 0, 0, 0)
+transform = Transform3D(1, -2.98023e-08, -1.49012e-08, 0, 0.999999, 0, -2.23517e-08, -5.96046e-08, 1, 0.5, 0.5, -0.5)
 shape = SubResource("BoxShape3D_fhpad")
 
-[node name="RotatingCubeMesh" type="MeshInstance3D" parent="RotatingCube"]
-transform = Transform3D(1, -4.47035e-08, -7.45058e-09, -4.47035e-08, 1, 2.98023e-08, 0, 0, 1, 0, 0, 0)
+[node name="RotatingCubeMesh" type="MeshInstance3D" parent="RotatingCube/CollisionShape3D"]
+transform = Transform3D(1, 0, 6.70552e-08, -7.45058e-08, 1, 0, 2.98023e-08, 2.98023e-08, 1, 0, 0, 1.19209e-07)
 material_override = ExtResource("6_xjatr")
 mesh = SubResource("BoxMesh_8p68f")
 skeleton = NodePath("")
