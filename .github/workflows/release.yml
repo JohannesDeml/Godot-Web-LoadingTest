@@ -61,22 +61,17 @@ jobs:
           fetch-depth: 0
           lfs: true
 
+      - name: Move export templates to user directory
+        run: |
+          mkdir -v -p ~/.local/share/godot/export_templates/
+          mv /root/.local/share/godot/export_templates/${{ needs.variables.outputs.GODOT_VERSION }}.stable ~/.local/share/godot/export_templates/${{ needs.variables.outputs.GODOT_VERSION }}.stable
+
       - name: Check export templates directory
         run: |
           echo "Checking if export templates directory exists..."
           if [ -d ~/.local/share/godot/export_templates ]; then
             echo "Directory exists. Contents:"
-            ls -la ~/.local/share/godot/export_templates/
-          else
-            echo "Directory does not exist"
-          fi
-
-      - name: Check export templates root directory
-        run: |
-          echo "Checking if export templates root directory exists..."
-          if [ -d /root/.local/share/godot/export_templates/ ]; then
-            echo "Directory exists. Contents:"
-            ls -la /root/.local/share/godot/export_templates/
+            ls -la ~/.local/share/godot/export_templates/*/
           else
             echo "Directory does not exist"
           fi
