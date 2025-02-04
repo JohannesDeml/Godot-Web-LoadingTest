@@ -121,6 +121,17 @@ jobs:
           name: ${{ needs.variables.outputs.BUILD_NAME }}
           path: build
 
+      - name: Compress assets
+        run: |
+          # Install compression tools
+          sudo apt-get update && sudo apt-get install -y brotli gzip
+
+          # Find and compress all .js and .wasm files
+          find build -type f \( -name "*.js" -o -name "*.wasm" \) -exec sh -c '
+            brotli -k "$1"
+            gzip -k "$1"
+          ' sh {} \;
+
       - name: Display structure of root files
         run: ls -R
         working-directory: build
