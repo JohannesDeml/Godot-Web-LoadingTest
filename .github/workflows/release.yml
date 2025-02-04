@@ -12,7 +12,7 @@ jobs:
     name: Define variables 🔗
     runs-on: ubuntu-latest
     outputs:
-      GODOT_VERSION: "4.3.0"  # Update this to match your Godot version
+      GODOT_VERSION: ${{ steps.set_godot_version.outputs.VERSION }}
       TAG: ${{ steps.set_tag.outputs.VERSION }}
       BUILD_NAME: ${{ steps.set_build_name.outputs.VERSION }}
     steps:
@@ -21,13 +21,23 @@ jobs:
           fetch-depth: 0
           lfs: true
 
+      - name: Set godot version
+        id: set_godot_version
+        run: |
+          echo "Debug: Showing the matching line"
+          grep 'config/features=PackedStringArray' godot/project.godot
+
+          GODOT_VERSION=$(grep 'config/features=PackedStringArray' godot/project.godot | grep -o '"4\.[0-9]*"' | head -n 1 | tr -d '"')
+          echo "Debug: Extracted version: $GODOT_VERSION"
+          echo "VERSION=$GODOT_VERSION" >> $GITHUB_OUTPUT
+
       - name: Set tag
         id: set_tag
         run: |
           if [[ $GITHUB_REF == refs/tags/* ]]; then
             echo "VERSION=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_OUTPUT
           else
-            echo "VERSION=${{ env.GODOT_VERSION }}-webgl-master" >> $GITHUB_OUTPUT
+            echo "VERSION=${{ steps.set_godot_version.outputs.GODOT_VERSION }}-webgl-master" >> $GITHUB_OUTPUT
           fi
 
       - name: Set target name
@@ -36,7 +46,7 @@ jobs:
 
       - name: Log variables
         run: |
-          echo "GODOT_VERSION -> ${{ env.GODOT_VERSION }}"
+          echo "GODOT_VERSION -> ${{ steps.set_godot_version.outputs.GODOT_VERSION }}"
           echo "TAG -> ${{ steps.set_tag.outputs.VERSION }}"
           echo "BUILD_NAME -> ${{ steps.set_build_name.outputs.VERSION }}"
 
@@ -45,7 +55,7 @@ jobs:
     needs: [ variables ]
     runs-on: ubuntu-latest
     container:
-      image: barichello/godot-ci:4.2.1
+      image: barichello/godot-ci:${{ needs.variables.outputs.GODOT_VERSION }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -55,7 +65,8 @@ jobs:
       - name: Build project
         run: |
           mkdir -p build/web
-          godot --headless --export-release "Web" build/web/index.html
+          cd godot
+          godot --headless --export-release "Web" ../build/web/index.html
 
       - uses: actions/upload-artifact@v4
         with:
