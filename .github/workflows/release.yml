@@ -84,7 +84,11 @@ jobs:
         run: |
           mkdir -p build/web
           cd godot
-          godot --headless --export-release "Web" ../build/web/index.html
+          if [[ "${{ needs.variables.outputs.TAG }}" == *"debug"* ]]; then
+            godot --headless --export-debug "Web" ../build/web/index.html
+          else
+            godot --headless --export-release "Web" ../build/web/index.html
+          fi
 
       - name: Copy logo from template to build
         run: cp godot/WebGLTemplates/Release/logo.svg build/web/logo.svg
