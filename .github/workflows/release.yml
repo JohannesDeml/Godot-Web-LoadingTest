@@ -95,42 +95,12 @@ jobs:
             godot --headless --export-release "Web" ../build/web/index.html
           fi
 
-      - name: Setup Binaryen
-        uses: Aandreba/setup-binaryen@v1.0.0
+      - name: Optimize Wasm
+        uses: NiklasEi/wasm-opt-action@v2
         with:
-          version: '122'
-
-      - name: Optimize WebAssembly
-        run: |
-          cd build/web
-          # Find the .wasm file (usually index.wasm)
-          WASM_FILE=$(find . -name "*.wasm")
-          echo "Optimizing $WASM_FILE"
-          # Create a backup of the original file
-          cp "$WASM_FILE" "${WASM_FILE}.backup"
-          # Run wasm-opt with the specified optimizations
-          wasm-opt "$WASM_FILE" -o "$WASM_FILE.opt" \
-            --enable-bulk-memory \
-            --enable-threads \
-            --enable-simd \
-            -O \
-            --intrinsic-lowering \
-            -O
-          # Replace the original with the optimized version
-          mv "$WASM_FILE.opt" "$WASM_FILE"
-
-          # Log file sizes and calculate savings
-          ORIGINAL_SIZE=$(stat -f %z "${WASM_FILE}.backup")
-          OPTIMIZED_SIZE=$(stat -f %z "$WASM_FILE")
-          SAVED_BYTES=$((ORIGINAL_SIZE - OPTIMIZED_SIZE))
-          SAVED_PERCENT=$(awk "BEGIN {printf \"%.2f\", ($SAVED_BYTES / $ORIGINAL_SIZE) * 100}")
-
-          echo "Original size: $ORIGINAL_SIZE bytes"
-          echo "Optimized size: $OPTIMIZED_SIZE bytes"
-          echo "Saved: $SAVED_BYTES bytes ($SAVED_PERCENT%)"
-
-          # Clean up backup file
-          rm "${WASM_FILE}.backup"
+          file: build/web/*.wasm
+          optimize_all: true
+          options: --enable-bulk-memory --enable-threads --enable-simd -O --intrinsic-lowering -O
 
       - name: Copy logo from template to build
         run: cp godot/WebGLTemplates/Release/logo.svg build/web/logo.svg
