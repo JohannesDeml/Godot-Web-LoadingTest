@@ -96,11 +96,11 @@ jobs:
           fi
 
       - name: Optimize Wasm
-        uses: NiklasEi/wasm-opt-action@v2
+        uses: JohannesDeml/binaryen-wasm-opt@v1
         with:
           file: build/web/*.wasm
           optimize_all: true
-          options: --enable-bulk-memory --enable-threads --enable-simd -O --intrinsic-lowering -O
+          options: --enable-bulk-memory --enable-threads --enable-exception-handling --enable-simd -O --intrinsic-lowering -O
 
       - name: Copy logo from template to build
         run: cp godot/WebGLTemplates/Release/logo.svg build/web/logo.svg
