@@ -95,6 +95,24 @@ jobs:
             godot --headless --export-release "Web" ../build/web/index.html
           fi
 
+      - name: Copy logo from template to build
+        run: cp godot/WebGLTemplates/Release/logo.svg build/web/logo.svg
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ needs.variables.outputs.BUILD_NAME }}-raw
+          path: build/web
+
+  optimizeAssets:
+    name: Optimize and compress assets 🗜️
+    needs: [ variables, buildProject ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: ${{ needs.variables.outputs.BUILD_NAME }}-raw
+          path: build/web
+
       - name: Optimize Wasm
         uses: JohannesDeml/binaryen-wasm-opt@v1
         with:
@@ -102,8 +120,20 @@ jobs:
           optimize_all: true
           options: --enable-bulk-memory --enable-threads --enable-exception-handling --enable-simd -O --intrinsic-lowering -O
 
-      - name: Copy logo from template to build
-        run: cp godot/WebGLTemplates/Release/logo.svg build/web/logo.svg
+      - name: Compress assets
+        run: |
+          # Install compression tools
+          sudo apt-get update && sudo apt-get install -y brotli gzip
+
+          # Find and compress all .js and .wasm files
+          find build -type f \( -name "*.js" -o -name "*.wasm" \) -exec sh -c '
+            brotli -k "$1"
+            gzip -k "$1"
+          ' sh {} \;
+
+      - name: Display structure of root files
+        run: ls -R
+        working-directory: build
 
       - uses: actions/upload-artifact@v4
         with:
@@ -128,7 +158,7 @@ jobs:
 
   deployOnServer:
     name: Deploy on server 🚀
-    needs: [ variables, buildProject ]
+    needs: [ variables, optimizeAssets ]
     if: ${{ github.repository_owner == 'JohannesDeml' }}  # Replace with your username
     runs-on: ubuntu-latest
     steps:
@@ -139,21 +169,6 @@ jobs:
         with:
           name: ${{ needs.variables.outputs.BUILD_NAME }}
           path: build
-
-      - name: Compress assets
-        run: |
-          # Install compression tools
-          sudo apt-get update && sudo apt-get install -y brotli gzip
-
-          # Find and compress all .js and .wasm files
-          find build -type f \( -name "*.js" -o -name "*.wasm" \) -exec sh -c '
-            brotli -k "$1"
-            gzip -k "$1"
-          ' sh {} \;
-
-      - name: Display structure of root files
-        run: ls -R
-        working-directory: build
 
       - name: Deploy ⤴
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
