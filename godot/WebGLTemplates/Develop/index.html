@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="debug-console.css">
+  <title>$GODOT_PROJECT_NAME</title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+    }
+
+    html {
+      /* fix mobile viewport menu bar on iOS */
+      height: -webkit-fill-available;
+    }
+
+    body {
+      height: 100%;
+      /* fix mobile viewport menu bar on iOS */
+      height: -webkit-fill-available;
+      width: 100%;
+      text-align: center;
+    }
+
+    #godot-container {
+      position: absolute;
+      left: 0px;
+      top: 0px;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #fff;
+    }
+
+    /* Default values, might be overwritten by aspect ratio media queries */
+    #godot-canvas {
+      width: 100%;
+      height: 100%;
+      background-color: #fff;
+    }
+
+    @media (min-aspect-ratio: 3/2) {
+      #godot-canvas {
+        width: auto;
+        height: 100%;
+        aspect-ratio: 3/2;
+      }
+    }
+
+    @media (max-aspect-ratio: 2) {
+      #godot-canvas {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 2;
+      }
+    }
+
+    #godot-loading-container {
+      position: absolute;
+      left: 0px;
+      top: 0px;
+      width: 100%;
+      height: 100%;
+      background-color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 40px;
+
+      opacity: 1;
+      visibility: visible;
+      transition: 800ms linear;
+    }
+
+    #godot-loading-container.finished {
+      opacity: 0;
+      visibility: collapse;
+    }
+
+    #godot-loading-container .logo {
+      width: 15%;
+      height: 15%;
+    }
+
+    #godot-loading-bar {
+      position: relative;
+      width: 40%;
+      height: 10px;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+    }
+
+    #godot-loading-bar-inner {
+      position: absolute;
+      left: 0%;
+      top: 0%;
+      width: 1%;
+      height: 100%;
+      background-color: #ccc;
+      border-radius: 10px;
+      transition: 400ms linear;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="godot-container">
+    <canvas id="godot-canvas"></canvas>
+  </div>
+  <div id="godot-loading-container">
+    <img src="logo.svg" class="logo" alt="Logo {{{ PRODUCT_NAME }}}">
+    <div id="godot-loading-bar">
+      <div id="godot-loading-bar-inner"></div>
+    </div>
+  </div>
+  <script src="$GODOT_URL"></script>
+  <script>
+    var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    if(isMobile) {
+      // Define a maximum pixel ratio for mobile to avoid rendering at too high resolutions
+      const maxPixelRatioMobile = 2.0;
+      var devicePixelRatio = Math.min(window.devicePixelRatio, maxPixelRatioMobile);
+    }
+
+    var canvas = document.querySelector("#godot-canvas");
+    var loadingContainer = document.querySelector("#godot-loading-container");
+    var loadingBar = document.querySelector("#godot-loading-bar-inner");
+
+    function onProgress(current, total) {
+      loadingBar.style.width = (100 * current/total) + "%";
+    }
+
+    window.godotFunctions = {};
+    window.externalator = {
+        addGodotFunction: (n,f) => {
+            window.godotFunctions[n] = f;
+        }
+    }
+
+    var engine = new Engine($GODOT_CONFIG);
+    // Start the engine
+    engine.startGame({ canvas: canvas, onProgress: onProgress })
+      .then(() => {
+        console.log('Engine has started!');
+        loadingContainer.classList.add("finished");
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  </script>
+  <!-- Add an html debug console and handle godot rich text styling for both html and browser console-->
+  <script src="./debug-console.js"></script>
+</body>
+
+</html>
