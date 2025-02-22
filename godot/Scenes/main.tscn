@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://ccn457idu3pwf"]
+[gd_scene load_steps=18 format=3 uid="uid://ccn457idu3pwf"]
 
 [ext_resource type="Script" path="res://Scripts/ConstantRotation.gd" id="1_0pqr8"]
 [ext_resource type="Material" uid="uid://cf58l6x4ljvh6" path="res://Materials/floor.tres" id="2_gsolv"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://Scripts/RotatingPhysicsCube.gd" id="5_ggk1f"]
 [ext_resource type="PackedScene" uid="uid://c4mf831i546p5" path="res://Prefabs/cube_spawner.tscn" id="5_u6kan"]
 [ext_resource type="Material" uid="uid://c4mbfud2xkkn4" path="res://Materials/cubemat.tres" id="6_xjatr"]
+[ext_resource type="Script" path="res://Scripts/WebToolTimeTracker.gd" id="8_50w6n"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_hfqt7"]
 
@@ -107,3 +108,6 @@ skeleton = NodePath("")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_4ohx7")
+
+[node name="TimeTracker" type="Node3D" parent="."]
+script = ExtResource("8_50w6n")

@@ -15,6 +15,11 @@ run/main_scene="res://Scenes/main.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
 config/icon="res://Textures/icon.svg"
 
+[autoload]
+
+WebToolPlugins="*res://Scripts/WebToolPlugins.gd"
+WebCommands="*res://Scripts/WebCommands.gd"
+
 [dotnet]
 
 project/assembly_name="GodotWebGL-LoadingTest"

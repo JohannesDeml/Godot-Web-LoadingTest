@@ -1,5 +1,5 @@
-/// Processes all unity log messages and converts unity rich text to css styled console messages & adds a debug html debug console
-/// from https://github.com/JohannesDeml/UnityWebGL-LoadingTest
+/// Processes all godot log messages and converts godot rich text to css styled console messages & adds a debug html debug console
+/// from https://github.com/JohannesDeml/GodotWebGL-LoadingTest
 
 let consoleDiv;
 let debugToggle;
@@ -300,7 +300,7 @@ function setupConsoleLogPipe() {
   };
 
   parseMessageAndLog = (message, logLevel, consoleLogFunction) => {
-    let styledTextParts = parseUnityRichText(message);
+    let styledTextParts = parseGodotRichText(message);
 
     let consoleText = '';
     let consoleStyle = [];
@@ -341,9 +341,9 @@ class StyledTextPart {
   }
 }
 
-function parseUnityRichText(message) {
-  // Mapping for unity tags to css style tags
-  // Unity rich text tags, see https://docs.unity3d.com/Packages/com.unity.ugui@1.0/manual/StyledText.html
+function parseGodotRichText(message) {
+  // Mapping for godot tags to css style tags
+  // Godot rich text tags, see https://docs.unity3d.com/Packages/com.unity.ugui@1.0/manual/StyledText.html
   const tagMap = {
     'color': { startTag: '<color=', closeTag: '</color>', styleTag: 'color:', postfix: '', hasParameter: true },
     'size': { startTag: '<size=', closeTag: '</size>', styleTag: 'font-size:', postfix: 'px', hasParameter: true },
@@ -527,21 +527,6 @@ function initializeToggleButton(startActive) {
       applyScrollToBottomSetting();
       debugLabel.classList.remove('unseen-error');
     }
-
-    if (typeof unityGame === 'undefined') {
-      return;
-    }
-    if (event.currentTarget.checked) {
-      runUnityCommand("DisableCaptureAllKeyboardInput");
-      return;
-    }
-
-    if (typeof unityCaptureAllKeyboardInputDefault !== 'undefined' && unityCaptureAllKeyboardInputDefault === 'false') {
-      runUnityCommand("DisableCaptureAllKeyboardInput");
-    }
-    else {
-      runUnityCommand("EnableCaptureAllKeyboardInput");
-    }
   })
 }
 
@@ -553,11 +538,11 @@ function getInfoPanel() {
     infoPanel.id = 'infoPanel';
     document.body.appendChild(infoPanel);
     var infoHeader = document.createElement('h3');
-    if (typeof unityVersion != `undefined` && typeof applicationVersion != `undefined` && typeof webGlVersion != `undefined`) {
-      // Set by WebGlBridge in Unity
-      infoHeader.textContent = `Unity ${unityVersion}@${applicationVersion} (${webGlVersion})`;
+    if (typeof godotVersion != `undefined` && typeof applicationVersion != `undefined` && typeof webGlVersion != `undefined`) {
+      // Set by WebGlBridge in Godot
+      infoHeader.textContent = `Godot ${godotVersion}@${applicationVersion} (${webGlVersion})`;
     } else {
-      infoHeader.textContent = `Unity InfoPanel`;
+      infoHeader.textContent = `Godot InfoPanel`;
     }
     infoPanel.appendChild(infoHeader);
   }
@@ -600,7 +585,7 @@ function onFpsTrackingEvent(fps) {
 function refreshTrackingDiv() {
   const trackingDiv = getOrCreateInfoEntry('tracking');
   let innerHtml = '<dl>';
-  unityTimeTrackers.forEach((value, key, map) => {
+  godotTimeTrackers.forEach((value, key, map) => {
     innerHtml += `<div id='tracking-${key}'>
                         <dt>${key}</dt>
                         <dd class='tracking-seconds'>${(value / 1000.0).toFixed(2)}</dd>
