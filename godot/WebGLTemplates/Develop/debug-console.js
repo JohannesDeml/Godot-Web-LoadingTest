@@ -57,7 +57,7 @@ function initializeDebugConsole() {
   var consoleInput = document.createElement("input");
   consoleInput.className = 'console-input';
   consoleInput.type = "text";
-  consoleInput.value = 'runGodotCommand("Help");';
+  consoleInput.value = 'runCommand("help");';
   debugConsole.appendChild(consoleInput);
 
   consoleInput.onkeydown = function (e) {
@@ -70,7 +70,7 @@ function initializeDebugConsole() {
   setupConsoleLogPipe();
 }
 
-function runGodotCommand(...command) {
+function runCommand(...command) {
   godotFunctions.runCommand(...command);
 }
 
