@@ -2,7 +2,6 @@ extends Node
 
 @export var show_info_panel_by_default: bool = true
 @export var track_awake_time: bool = true
-@export var track_start_time: bool = true
 
 @export_group("FPS Tracking")
 @export var track_fps: bool = true
@@ -19,13 +18,6 @@ func _ready():
 
 	if track_awake_time:
 		WebToolPlugins.add_time_tracking_event("Ready")
-
-	if track_start_time:
-		# Call in next frame to measure actual start time
-		call_deferred("_track_start")
-
-func _track_start():
-	WebToolPlugins.add_time_tracking_event("Start")
 
 func _process(delta: float):
 	if not track_fps:
