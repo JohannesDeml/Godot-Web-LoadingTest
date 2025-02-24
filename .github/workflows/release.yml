@@ -15,6 +15,7 @@ jobs:
       GODOT_VERSION: ${{ steps.set_godot_version.outputs.VERSION }}
       TAG: ${{ steps.set_tag.outputs.VERSION }}
       BUILD_NAME: ${{ steps.set_build_name.outputs.VERSION }}
+      OPTIMIZE_WASM: ${{ steps.set_optimize_wasm.outputs.VALUE }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -52,11 +53,21 @@ jobs:
         id: set_build_name
         run: echo "VERSION=WebGL-${{ steps.set_tag.outputs.VERSION }}" >> $GITHUB_OUTPUT
 
+      - name: Set wasm optimization
+        id: set_optimize_wasm
+        run: |
+          if [[ $GITHUB_REF == "refs/heads/main" ]]; then
+            echo "VALUE=false" >> $GITHUB_OUTPUT
+          else
+            echo "VALUE=true" >> $GITHUB_OUTPUT
+          fi
+
       - name: Log variables
         run: |
           echo "GODOT_VERSION -> ${{ steps.set_godot_version.outputs.VERSION }}"
           echo "TAG -> ${{ steps.set_tag.outputs.VERSION }}"
           echo "BUILD_NAME -> ${{ steps.set_build_name.outputs.VERSION }}"
+          echo "OPTIMIZE_WASM -> ${{ steps.set_optimize_wasm.outputs.VALUE }}"
 
   buildProject:
     name: Create Godot WebGL Build 🏗
@@ -95,8 +106,9 @@ jobs:
             godot --headless --export-release "Web" ../build/web/index.html
           fi
 
-      - name: Copy logo from template to build
-        run: cp godot/WebGLTemplates/Release/logo.svg build/web/logo.svg
+      - name: Copy WebGL template files to build
+        run: |
+          find godot/WebGLTemplates/Develop -type f -not -name "index.html" -not -name "*.import" -exec cp {} build/web/ \;
 
       - uses: actions/upload-artifact@v4
         with:
@@ -114,6 +126,7 @@ jobs:
           path: build/web
 
       - name: Optimize Wasm
+        if: ${{ needs.variables.outputs.OPTIMIZE_WASM == 'true' }}
         uses: JohannesDeml/binaryen-wasm-opt@v1
         with:
           file: build/web/*.wasm
