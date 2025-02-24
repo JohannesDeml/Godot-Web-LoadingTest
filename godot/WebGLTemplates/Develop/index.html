@@ -150,9 +150,7 @@
     engine.startGame({ canvas: canvas, onProgress: onProgress })
       .then(() => {
         console.log('Engine has started!');
-        if (typeof WebToolPlugins !== 'undefined') {
-          WebToolPlugins._AddTimeTrackingEvent('Start');
-        }
+        WebToolPlugins._AddTimeTrackingEvent('Start');
         loadingContainer.classList.add("finished");
       })
       .catch(error => {

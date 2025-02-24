@@ -50,7 +50,7 @@ func commandCallback(args):
 	command.method.callv(command_args)
 
 func help():
-	var help_text = "Available commands:\n"
+	var help_text = "[b]Available commands:[/b]\n"
 	for command_name in _commands:
 		var command = _commands[command_name]
 		var params_str = ""
@@ -62,5 +62,8 @@ func help():
 			params_str,
 			command.description
 		]
+
+	# Strip all newlines and spaces before and after the text
+	help_text = help_text.strip_edges()
 
 	print(help_text)
