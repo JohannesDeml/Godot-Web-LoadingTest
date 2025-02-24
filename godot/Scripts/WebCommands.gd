@@ -55,7 +55,7 @@ func help():
 		var command = _commands[command_name]
 		var params_str = ""
 		for param in command.params:
-			params_str += ", \"" + str(param) + "\""
+			params_str += ", " + str(param)
 
 		help_text += "runCommand(\"%s\"%s) -> %s\n" % [
 			command_name,

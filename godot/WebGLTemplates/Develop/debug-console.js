@@ -342,14 +342,23 @@ class StyledTextPart {
 }
 
 function parseGodotRichText(message) {
-  // Mapping for godot tags to css style tags
-  // Godot rich text tags, see https://docs.unity3d.com/Packages/com.unity.ugui@1.0/manual/StyledText.html
+  // Mapping for godot BBCode tags to css style tags
+  // Godot rich text tags, see https://docs.godotengine.org/en/stable/classes/class_%40globalscope.html#class-globalscope-method-print-rich
   const tagMap = {
-    'color': { startTag: '<color=', closeTag: '</color>', styleTag: 'color:', postfix: '', hasParameter: true },
-    'size': { startTag: '<size=', closeTag: '</size>', styleTag: 'font-size:', postfix: 'px', hasParameter: true },
-    'bold': { startTag: '<b', closeTag: '</b>', styleTag: 'font-weight:', styleValue: 'bold', hasParameter: false },
-    'italic': { startTag: '<i', closeTag: '</i>', styleTag: 'font-style:', styleValue: 'italic', hasParameter: false }
+    'color': { startTag: '[color=', closeTag: '[/color]', styleTag: 'color:', postfix: '', hasParameter: true },
+    'bgcolor': { startTag: '[bgcolor=', closeTag: '[/bgcolor]', styleTag: 'background-color:', postfix: '', hasParameter: true },
+    'fgcolor': { startTag: '[fgcolor=', closeTag: '[/fgcolor]', styleTag: 'color:', postfix: '', hasParameter: true },
+    'b': { startTag: '[b]', closeTag: '[/b]', styleTag: 'font-weight:', styleValue: 'bold', hasParameter: false },
+    'i': { startTag: '[i]', closeTag: '[/i]', styleTag: 'font-style:', styleValue: 'italic', hasParameter: false },
+    'u': { startTag: '[u]', closeTag: '[/u]', styleTag: 'text-decoration:', styleValue: 'underline', hasParameter: false },
+    's': { startTag: '[s]', closeTag: '[/s]', styleTag: 'text-decoration:', styleValue: 'line-through', hasParameter: false },
+    'indent': { startTag: '[indent', closeTag: '[/indent]', styleTag: 'padding-left:', styleValue: '20px', hasParameter: false },
+    'code': { startTag: '[code', closeTag: '[/code]', styleTag: 'font-family:', styleValue: 'monospace', hasParameter: false },
+    'center': { startTag: '[center', closeTag: '[/center]', styleTag: 'text-align:', styleValue: 'center', hasParameter: false },
+    'right': { startTag: '[right', closeTag: '[/right]', styleTag: 'text-align:', styleValue: 'right', hasParameter: false },
+    'url': { startTag: '[url=', closeTag: '[/url]', styleTag: 'text-decoration:', styleValue: 'underline; color: blue', hasParameter: false } // Will be styled like a link, but does not work as a link.
   };
+  const tagCloseChar = ']';
 
   let index = 0;
   const styledTextParts = [];
@@ -401,7 +410,7 @@ function parseGodotRichText(message) {
       break;
     }
 
-    let closeTagIndex = message.indexOf('>', nextIndex + 1);
+    let closeTagIndex = message.indexOf(tagCloseChar, nextIndex + 1);
 
     // Process start tag
     if (fromArray === nextStartIndex) {
