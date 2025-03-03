@@ -38,7 +38,7 @@ jobs:
             VERSION=${GITHUB_REF/refs\/tags\//}
           else
             VERSION="${{ steps.set_godot_version.outputs.VERSION }}"
-            VERSION="$VERSION-webgl-main"
+            VERSION="$VERSION-webgl-main-debug"
           fi
 
           # Add .0 patch version if needed for both tagged and untagged builds
@@ -97,18 +97,14 @@ jobs:
           fi
 
       - name: Build project
+        shell: bash
         run: |
-          mkdir -p build/web
-          cd godot
+          chmod +x Scripts/build-webgl.sh
           if [[ "${{ needs.variables.outputs.TAG }}" == *"debug"* ]]; then
-            godot --headless --export-debug "Web" ../build/web/index.html
+            ./Scripts/build-webgl.sh --debug
           else
-            godot --headless --export-release "Web" ../build/web/index.html
+            ./Scripts/build-webgl.sh
           fi
-
-      - name: Copy WebGL template files to build
-        run: |
-          find godot/WebGLTemplates/Develop -type f -not -name "index.html" -not -name "*.import" -exec cp {} build/web/ \;
 
       - uses: actions/upload-artifact@v4
         with:
