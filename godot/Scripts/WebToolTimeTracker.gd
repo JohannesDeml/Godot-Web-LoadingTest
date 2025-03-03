@@ -11,6 +11,13 @@ var _time_since_last_update: float = 0.0
 var _last_frame_count: int = 0
 
 func _ready():
+	# Set global variables that are shown in the info panel
+	WebToolPlugins.set_variable("godotVersion", Engine.get_version_info()["string"])
+	WebToolPlugins.set_variable("applicationVersion", ProjectSettings.get_setting("application/config/version", "1.0.0"))
+	# TODO Hard-code WebGL version for now
+	var webgl_version = "WebGL 2"
+	WebToolPlugins.set_variable("webGlVersion", webgl_version)
+
 	if show_info_panel_by_default:
 		WebToolPlugins.show_info_panel()
 	else:

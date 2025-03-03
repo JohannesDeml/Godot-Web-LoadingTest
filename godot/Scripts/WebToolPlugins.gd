@@ -9,6 +9,9 @@ func show_info_panel() -> void:
 func hide_info_panel() -> void:
 	JavaScriptBridge.eval("WebToolPlugins._SetInfoPanelVisible(false);")
 
+func set_variable(variable_name: String, variable_value: String) -> void:
+	JavaScriptBridge.eval("WebToolPlugins._SetStringVariable('%s', '%s');" % [variable_name, variable_value])
+
 func add_time_tracking_event(event_name: String) -> void:
 	JavaScriptBridge.eval("WebToolPlugins._AddTimeTrackingEvent('%s');" % event_name)
 

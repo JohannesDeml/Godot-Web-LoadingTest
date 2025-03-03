@@ -1,4 +1,8 @@
 var WebToolPlugins = {
+    _SetStringVariable: function(variableName, variableValue) {
+        window[variableName] = variableValue;
+    },
+
     _SetInfoPanelVisible: function(visible) {
         if(typeof setInfoPanelVisible !== 'undefined') {
             setInfoPanelVisible(visible);
