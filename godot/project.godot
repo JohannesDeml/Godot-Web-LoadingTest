@@ -35,7 +35,6 @@ common/physics_ticks_per_second=50
 
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
-lights_and_shadows/directional_shadow/size=1024
-lights_and_shadows/directional_shadow/size.mobile=1024
+lights_and_shadows/directional_shadow/size=2048
 lights_and_shadows/directional_shadow/soft_shadow_filter_quality=0
 environment/defaults/default_clear_color=Color(1, 1, 1, 1)

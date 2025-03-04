@@ -42,12 +42,8 @@ func _process(delta: float):
 func _get_graphics_api() -> String:
 	var graphics_api = "Unknown"
 	if OS.has_feature("web"):
-		graphics_api = "WebGL"
-		# WebGL version can be determined by checking WebGL2 support
-		if OS.has_feature("webgl2"):
-			graphics_api += " 2"
-		else:
-			graphics_api += " 1"
+		# TODO: Make this dynamic
+		graphics_api = "WebGL 2"
 	else:
 		graphics_api = RenderingServer.get_video_adapter_api_version()
 	return graphics_api
