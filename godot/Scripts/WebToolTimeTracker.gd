@@ -12,11 +12,9 @@ var _last_frame_count: int = 0
 
 func _ready():
 	# Set global variables that are shown in the info panel
-	WebToolPlugins.set_variable("godotVersion", Engine.get_version_info()["string"])
-	WebToolPlugins.set_variable("applicationVersion", ProjectSettings.get_setting("application/config/version", "1.0.0"))
-	# TODO Hard-code WebGL version for now
-	var webgl_version = "WebGL 2"
-	WebToolPlugins.set_variable("webGlVersion", webgl_version)
+	WebToolPlugins.set_variable("godotVersion", "%s.%s.%s" % [Engine.get_version_info()["major"], Engine.get_version_info()["minor"], Engine.get_version_info()["patch"]])
+	WebToolPlugins.set_variable("applicationVersion", ProjectSettings.get_setting("application/config/version"))
+	WebToolPlugins.set_variable("webGlVersion", _get_graphics_api())
 
 	if show_info_panel_by_default:
 		WebToolPlugins.show_info_panel()
@@ -40,3 +38,16 @@ func _process(delta: float):
 		WebToolPlugins.add_fps_tracking_event(fps)
 		_time_since_last_update = 0
 		_last_frame_count = current_frame
+
+func _get_graphics_api() -> String:
+	var graphics_api = "Unknown"
+	if OS.has_feature("web"):
+		graphics_api = "WebGL"
+		# WebGL version can be determined by checking WebGL2 support
+		if OS.has_feature("webgl2"):
+			graphics_api += " 2"
+		else:
+			graphics_api += " 1"
+	else:
+		graphics_api = RenderingServer.get_video_adapter_api_version()
+	return graphics_api
