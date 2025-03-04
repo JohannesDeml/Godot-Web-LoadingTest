@@ -1,14 +1,14 @@
 [gd_scene load_steps=19 format=3 uid="uid://ccn457idu3pwf"]
 
-[ext_resource type="Script" path="res://Scripts/ConstantRotation.gd" id="1_0pqr8"]
+[ext_resource type="Script" uid="uid://2oj6kh3k5kn1" path="res://Scripts/ConstantRotation.gd" id="1_0pqr8"]
 [ext_resource type="Material" uid="uid://cf58l6x4ljvh6" path="res://Materials/floor.tres" id="2_gsolv"]
 [ext_resource type="PackedScene" uid="uid://df4cc8t6faa4v" path="res://Prefabs/invisible_wall_pivot.tscn" id="3_5wp4y"]
-[ext_resource type="Script" path="res://Scripts/ObjectSpawnController.gd" id="4_5yjmn"]
-[ext_resource type="Script" path="res://Scripts/RotatingPhysicsCube.gd" id="5_ggk1f"]
+[ext_resource type="Script" uid="uid://brkse4oaw3wfy" path="res://Scripts/ObjectSpawnController.gd" id="4_5yjmn"]
+[ext_resource type="Script" uid="uid://dec4poflnxvyi" path="res://Scripts/RotatingPhysicsCube.gd" id="5_ggk1f"]
 [ext_resource type="PackedScene" uid="uid://c4mf831i546p5" path="res://Prefabs/cube_spawner.tscn" id="5_u6kan"]
 [ext_resource type="Material" uid="uid://c4mbfud2xkkn4" path="res://Materials/cubemat.tres" id="6_xjatr"]
-[ext_resource type="Script" path="res://Scripts/WebToolTimeTracker.gd" id="8_50w6n"]
-[ext_resource type="Script" path="res://Scripts/CommonWebCommands.gd" id="9_774s3"]
+[ext_resource type="Script" uid="uid://cr66spbgfv2yx" path="res://Scripts/WebToolTimeTracker.gd" id="8_50w6n"]
+[ext_resource type="Script" uid="uid://bej2uj481040r" path="res://Scripts/CommonWebCommands.gd" id="9_774s3"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_hfqt7"]
 
