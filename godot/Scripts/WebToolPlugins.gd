@@ -3,6 +3,29 @@ extends Node
 # Make this a singleton by adding it to Project Settings -> Autoload
 # with the name "WebToolPlugins", using a class_name does not work for WebGL
 
+func _ready():
+	# Allow browser shortcuts like F12, Ctrl+R, etc.
+	if OS.get_name() == "Web":
+		JavaScriptBridge.eval("""
+			document.addEventListener('keydown', function(e) {
+				if (e.key === 'F12' || // Open DevTools
+					(e.ctrlKey && e.shiftKey && e.key === 'I') ||  // Open DevTools
+					e.key === 'F5' ||  // Refresh
+					(e.ctrlKey && e.key === 'r') ||  // Refresh
+					(e.ctrlKey && e.key === 'w') ||  // Close tab
+					(e.ctrlKey && e.key === 't') ||  // New tab
+					(e.ctrlKey && e.key === 'Tab') ||  // Switch tabs
+					(e.ctrlKey && e.shiftKey && e.key === 'Tab') ||  // Switch tabs (reverse)
+					(e.altKey && e.key === 'Home') ||  // Home page
+					(e.ctrlKey && e.key === 'l') ||  // Focus address bar
+					(e.altKey && e.key === 'Left') ||  // Back
+					(e.altKey && e.key === 'Right')) {  // Forward
+						e.stopPropagation();
+						return true;  // Allow the default browser behavior
+				}
+			}, true);
+		""")
+
 func show_info_panel() -> void:
 	if OS.get_name() != "Web":
 		print("WebToolPlugins.show_info_panel() called")
