@@ -141,7 +141,7 @@ jobs:
           ' sh {} \;
 
       - name: Display structure of root files
-        run: ls -R
+        run: ls -Rlh
         working-directory: build
 
       - uses: actions/upload-artifact@v4
