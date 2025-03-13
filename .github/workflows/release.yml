@@ -127,7 +127,7 @@ jobs:
         with:
           file: build/web/*.wasm
           optimize_all: true
-          options: --enable-bulk-memory --enable-threads --enable-exception-handling --enable-simd -O --intrinsic-lowering -O
+          options: -all --post-emscripten -Oz
 
       - name: Compress assets
         run: |

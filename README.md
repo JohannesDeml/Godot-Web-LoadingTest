@@ -54,7 +54,7 @@ Version | Size | Link
 * Exporting the project is a bliss compared to Unity, it is finished in a second while for Unity it takes 10+ minutes on my laptop.
 * Loading times are really long for godot (compared to unity)
 * I didn't find any way to build for WebGL 1 or WebGPU, if this exists and I just missed it, please let me know.
-* I got my hands dirty with custom export templates, but the improvements in 4.1 were not that big and I want to have a straight forward build experience, that's why I'm not doing this optimization right now.
+* So far this project does not use custom export templates (I got my hands dirty with [this version](https://deml.io/experiments/godot-webgl/4.1.2-custom-template)) since I would need some custom logic to set up everything for CI with custom templates. However it seems like this is worth another look. For more information on how to use custom export templates check out [this great blog post](https://popcar.bearblog.dev/how-to-minify-godots-build-size/).
 
 ## License
 
