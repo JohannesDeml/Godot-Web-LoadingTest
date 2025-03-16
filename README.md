@@ -8,7 +8,7 @@
 
 * [Overview page of all builds](https://deml.io/experiments/godot-webgl/)
 * [Implementation in Unity](https://github.com/JohannesDeml/UnityWebGL-LoadingTest)
-* [Godot Forum Thread](https://godotforums.org/d/37304-gzip-brotli-compression-with-custom-template)
+* [Godot Forum Thread](https://forum.godotengine.org/t/godot-web-loading-test/105502)
 
 
 ## Features
