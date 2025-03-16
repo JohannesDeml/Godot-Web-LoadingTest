@@ -12,6 +12,11 @@ on:
         required: false
         type: boolean
         default: true
+      tagsOnly:
+        description: 'Only create tags'
+        required: true
+        type: boolean
+        default: false
       mergeMain:
         description: 'Merge main into branch'
         required: true
@@ -36,11 +41,13 @@ jobs:
           echo "Branch: $BRANCH_NAME"
           echo "Godot version: $GODOT_VERSION"
           echo "Create tags: $CREATE_TAGS"
+          echo "Only create tags: $TAGS_ONLY"
           echo "Merge main into branch: $MERGE_MAIN"
           echo "Custom parameters: $CUSTOM_PARAMETERS"
         env:
           GODOT_VERSION: ${{ inputs.godotVersion }}
           CREATE_TAGS: ${{ inputs.createTags }}
+          TAGS_ONLY: ${{ inputs.tagsOnly }}
           MERGE_MAIN: ${{ inputs.mergeMain }}
           CUSTOM_PARAMETERS: ${{ inputs.customParameters }}
 
@@ -72,11 +79,13 @@ jobs:
           echo "VERSION=$CURRENT_VERSION" >> $GITHUB_OUTPUT
 
       - name: Update project version
+        if: ${{ !inputs.tagsOnly }}
         run: |
           # Open and save the project with the new Godot version
           godot --headless --quit godot/project.godot
 
       - name: Render template
+        if: ${{ !inputs.tagsOnly }}
         id: template
         uses: chuhlomin/render-template@v1.9
         with:
@@ -85,6 +94,7 @@ jobs:
             godotversion: ${{ inputs.godotVersion }}
 
       - name: Create Pull Request
+        if: ${{ !inputs.tagsOnly }}
         uses: peter-evans/create-pull-request@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
