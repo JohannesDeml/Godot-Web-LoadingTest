@@ -55,7 +55,8 @@ jobs:
         with:
           fetch-depth: 0
           lfs: true
-          token: ${{ secrets.GITHUB_TOKEN }}
+          # Makes sure, that pushing new tags will trigger workflows
+          token: ${{ secrets.PR_GITHUB_TOKEN }}
 
       - name: Set git user
         run: |
