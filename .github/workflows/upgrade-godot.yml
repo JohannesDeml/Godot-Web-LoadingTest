@@ -55,12 +55,14 @@ jobs:
         with:
           fetch-depth: 0
           lfs: true
-          token: ${{ secrets.GITHUB_TOKEN }}
+          # Makes sure, that pushing new tags will trigger workflows
+          token: ${{ secrets.PR_GITHUB_TOKEN }}
 
-      - name: Set git user
+      - name: Set git user and add repository to safe directories
         run: |
           git config --global user.email "$GIT_USER@users.noreply.github.com"
           git config --global user.name "$GIT_USER"
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
         env:
           GIT_USER: ${{ github.actor }}
 
