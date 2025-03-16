@@ -2,7 +2,7 @@
 
 ![Preview](./preview.png)
 
-[![](https://img.shields.io/github/release-date/JohannesDeml/Godot-WebGL-LoadingTest.svg)](https://github.com/JohannesDeml/Godot-WebGL-LoadingTest/releases) [![Godot 4.3](https://img.shields.io/badge/godot-4.3-green.svg?logo=godot-engine&logoColor=white&cacheSeconds=2592000)](https://godotengine.org/download/archive/4.1.2-stable/)
+[![](https://img.shields.io/github/release-date/JohannesDeml/Godot-WebGL-LoadingTest.svg)](https://github.com/JohannesDeml/Godot-WebGL-LoadingTest/releases) [![Godot 4.3 - 4.4](https://img.shields.io/badge/godot-4.3-green.svg?logo=godot-engine&logoColor=white&cacheSeconds=2592000)](https://godotengine.org/download/archive/4.1.2-stable/)
 
 *Testing Godot's WebGL size and loading times*
 
@@ -15,20 +15,23 @@
 
 * Responsive template layout
 * Rich text console and BBCode parsing
-* Commands from the console
-* Passing on common browser shortcuts (ctrl+t, F12, ...)
+* Run commands from the console
+* Support common browser shortcuts (ctrl+t, F12, ...)
 * Automatic CI builds
   * Brotli & Gzip pre-compression
-  * wasm-opt (Does not have a relevant effect anymore with Godot 4.3+)
+  * [wasm-opt](https://github.com/JohannesDeml/binaryen-wasm-opt) to reduce wasm size
+  * Automatic server upload of builds
 
 
 ### Release WebGL2
+
 Version | Size | Link
 --- | --- | ---
 4.4.0 | 6.16 MB | https://deml.io/experiments/godot-webgl/4.4.0-webgl2
 4.3.0 | 5.35 MB | https://deml.io/experiments/godot-webgl/4.3.0-webgl2
 
 ### Debug WebGL2
+
 Version | Size | Link
 --- | --- | ---
 4.4.0 | 6.72 MB | https://deml.io/experiments/godot-webgl/4.4.0-webgl2-debug
@@ -46,11 +49,9 @@ Version | Size | Link
 
 ✔️ *: Supported* | ⚠️ *: Warning , see below* | ❌ *: not supported* | ➖ *: Not applicable*
 
-*This matrix is for Godot 4.4, other versions might differ*
-
 ## Notes
 
-* I'm mostly developing with Unity and the comparison to my [unity webgl project](https://github.com/JohannesDeml/UnityWebGL-LoadingTest) might not be fair, since I have a lot more experience there and also fine-tuned it over the last years.
+* I'm mostly developing with Unity and the comparison to my [unity webgl project](https://github.com/JohannesDeml/UnityWebGL-LoadingTest) might not be fair, since I have a lot more experience with Unity development. However, I tried getting a similar feature set and the same graphics settings to be able to make a fair comparison of 3D & physics performance on WebGL.
 * Exporting the project is a bliss compared to Unity, it is finished in a second while for Unity it takes 10+ minutes on my laptop.
 * Loading times are really long for godot (compared to unity)
 * I didn't find any way to build for WebGL 1 or WebGPU, if this exists and I just missed it, please let me know.
