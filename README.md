@@ -56,6 +56,7 @@ Version | Size | Link
 * Loading times are really long for godot (compared to unity)
 * I didn't find any way to build for WebGL 1 or WebGPU, if this exists and I just missed it, please let me know.
 * So far this project does not use custom export templates (I got my hands dirty with [this version](https://deml.io/experiments/godot-webgl/4.1.2-custom-template)) since I would need some custom logic to set up everything for CI with custom templates. However it seems like this is worth another look. For more information on how to use custom export templates check out [this great blog post](https://popcar.bearblog.dev/how-to-minify-godots-build-size/).
+* Build size increased significantly from Godot 4.3 to Godot 4.4 (0.8MB / +15%). Maybe it is about VR support for the web, but that is just a guess.
 
 ## Browser Console commands
 
