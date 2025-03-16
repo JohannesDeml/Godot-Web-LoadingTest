@@ -1,0 +1,103 @@
+name: Upgrade Godot version
+
+on:
+  workflow_dispatch:
+    inputs:
+      godotVersion:
+        description: 'Godot version (e.g. 4.4)'
+        required: true
+        type: string
+      createTags:
+        description: 'Create Tags'
+        required: false
+        type: boolean
+        default: true
+      mergeMain:
+        description: 'Merge main into branch'
+        required: true
+        type: boolean
+        default: true
+      customParameters:
+        description: 'Custom cli arguments'
+        required: false
+        type: string
+        default: ''
+
+jobs:
+  upgrade-godot-version:
+    name: Upgrade Godot version to ${{ inputs.godotVersion }}
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:${{ inputs.godotVersion }}
+    steps:
+      - name: Log input parameters
+        run: |
+          BRANCH_NAME=${GITHUB_REF#refs/heads/}
+          echo "Branch: $BRANCH_NAME"
+          echo "Godot version: $GODOT_VERSION"
+          echo "Create tags: $CREATE_TAGS"
+          echo "Merge main into branch: $MERGE_MAIN"
+          echo "Custom parameters: $CUSTOM_PARAMETERS"
+        env:
+          GODOT_VERSION: ${{ inputs.godotVersion }}
+          CREATE_TAGS: ${{ inputs.createTags }}
+          MERGE_MAIN: ${{ inputs.mergeMain }}
+          CUSTOM_PARAMETERS: ${{ inputs.customParameters }}
+
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          lfs: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set git user
+        run: |
+          git config --global user.email "$GIT_USER@users.noreply.github.com"
+          git config --global user.name "$GIT_USER"
+        env:
+          GIT_USER: ${{ github.actor }}
+
+      - name: Merge main into current branch
+        if: ${{ inputs.mergeMain }}
+        run: |
+          git fetch origin main
+          git merge FETCH_HEAD
+          git push
+          git log -1
+
+      - name: Get current Godot version
+        id: current_version
+        run: |
+          CURRENT_VERSION=$(grep 'config/features=PackedStringArray' godot/project.godot | grep -o '"4\.[0-9.]*"' | head -n 1 | tr -d '"')
+          echo "VERSION=$CURRENT_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Update project version
+        run: |
+          # Open and save the project with the new Godot version
+          godot --headless --quit godot/project.godot
+
+      - name: Render template
+        id: template
+        uses: chuhlomin/render-template@v1.9
+        with:
+          template: .github/templates/upgrade-godot-pr-body.md
+          vars: |
+            godotversion: ${{ inputs.godotVersion }}
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "[Automated workflow] upgrade-godot from ${{ steps.current_version.outputs.VERSION }} to ${{ inputs.godotVersion }}"
+          branch: "ci/upgrade-godot/from-${{ steps.current_version.outputs.VERSION }}-to-${{ inputs.godotVersion }}"
+          delete-branch: true
+          title: "[Automated workflow] upgrade-godot from ${{ steps.current_version.outputs.VERSION }} to ${{ inputs.godotVersion }}"
+          body: ${{ steps.template.outputs.result }}
+
+      - name: Add tags
+        if: ${{ inputs.createTags }}
+        run: |
+          # Run add tags script
+          ./.github/scripts/add-tags.sh "$GODOT_VERSION"
+        env:
+          GODOT_VERSION: ${{ inputs.godotVersion }}
