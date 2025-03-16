@@ -95,7 +95,6 @@ func help():
 				params_str,
 				command.description
 			]
-		help_text += "\n"
 
 	# Strip all newlines and spaces before and after the text
 	help_text = help_text.strip_edges()

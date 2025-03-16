@@ -57,6 +57,29 @@ Version | Size | Link
 * I didn't find any way to build for WebGL 1 or WebGPU, if this exists and I just missed it, please let me know.
 * So far this project does not use custom export templates (I got my hands dirty with [this version](https://deml.io/experiments/godot-webgl/4.1.2-custom-template)) since I would need some custom logic to set up everything for CI with custom templates. However it seems like this is worth another look. For more information on how to use custom export templates check out [this great blog post](https://popcar.bearblog.dev/how-to-minify-godots-build-size/).
 
+## Browser Console commands
+
+The script [WebCommands](./godot/Scripts/WebCommands.gd) adds support to call godot functions from the browser console through `godotFunctions.runCommand("COMMAND_NAME",PARAMETERS...)`
+
+Currently the following commands are available:
+
+### [System](./godot/Scripts/WebCommands.gd)
+```javascript
+runCommand("help") -> Shows all available commands
+```
+
+### [CommonWebCommands](./godot/Scripts/CommonWebCommands.gd)
+```javascript
+runCommand("log_memory") -> Logs current memory usage
+runCommand("pause_game") -> Pauses the game
+runCommand("print_example") -> Logs an example rich text message to the console (BBCode)
+runCommand("print_rich", message: String) -> Logs a rich text message to the console (BBCode)
+runCommand("quit") -> Quits the application
+runCommand("set_time_scale", scale: float) -> Sets the game time scale
+runCommand("toggle_pause") -> Toggles the game pause state
+runCommand("unpause_game") -> Unpauses the game
+```
+
 ## License
 
 * MIT (c) Johannes Deml - see [LICENSE](./LICENSE.md)
