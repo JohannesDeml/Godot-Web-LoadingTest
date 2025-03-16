@@ -2,11 +2,12 @@ extends Node
 
 func _ready():
 	var web_commands = get_node("/root/WebCommands")
+	var category = "CommonWebCommands"
 
 	# Register commands to be usable from the console
-
 	web_commands.register_command(
 		"set_time_scale",
+		category,
 		set_time_scale,
 		"Sets the game time scale",
 		["scale: float"]
@@ -14,18 +15,21 @@ func _ready():
 
 	web_commands.register_command(
 		"log_memory",
+		category,
 		log_memory,
 		"Logs current memory usage"
 	)
 
 	web_commands.register_command(
 		"print_example",
+		category,
 		log_example_message,
 		"Logs an example rich text message to the console (BBCode)"
 	)
 
 	web_commands.register_command(
 		"print_rich",
+		category,
 		log_rich_message,
 		"Logs a rich text message to the console (BBCode)",
 		["message: String"]
@@ -33,24 +37,28 @@ func _ready():
 
 	web_commands.register_command(
 		"toggle_pause",
+		category,
 		toggle_pause,
 		"Toggles the game pause state"
 	)
 
 	web_commands.register_command(
 		"pause_game",
+		category,
 		pause_game,
 		"Pauses the game"
 	)
 
 	web_commands.register_command(
 		"unpause_game",
+		category,
 		unpause_game,
 		"Unpauses the game"
 	)
 
 	web_commands.register_command(
 		"quit",
+		category,
 		quit_game,
 		"Quits the application"
 	)
