@@ -1,4 +1,4 @@
-name: Build Godot project & release
+name: Build Godot project & deploy to server
 
 on:
   push:
@@ -72,6 +72,7 @@ jobs:
   buildProject:
     name: Create Godot WebGL Build 🏗
     needs: [ variables ]
+    if: ${{ !startsWith(needs.variables.outputs.TAG, 'v') }}
     runs-on: ubuntu-latest
     container:
       image: barichello/godot-ci:${{ needs.variables.outputs.GODOT_VERSION }}
@@ -148,22 +149,6 @@ jobs:
         with:
           name: ${{ needs.variables.outputs.BUILD_NAME }}
           path: build/web
-
-  createRelease:
-    name: Create Github release 🐙
-    if: ${{ github.ref_type == 'tag' }}
-    needs: [ variables ]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Create Release
-        uses: softprops/action-gh-release@v2
-        with:
-          body: |
-            ## Changes
-            *
-
-            [WebGL Demo](https://your-demo-url-here/${{ needs.variables.outputs.TAG }}/)
-          draft: true
 
   deployOnServer:
     name: Deploy on server 🚀

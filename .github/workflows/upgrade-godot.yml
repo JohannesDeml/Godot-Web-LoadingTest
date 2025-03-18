@@ -81,13 +81,13 @@ jobs:
           echo "VERSION=$CURRENT_VERSION" >> $GITHUB_OUTPUT
 
       - name: Update project version
-        if: ${{ !inputs.tagsOnly }}
+        if: ${{ !inputs.tagsOnly && !startsWith(inputs.godotVersion, 'v') }}
         run: |
           # Open and save the project with the new Godot version
           godot --headless --quit godot/project.godot
 
       - name: Render template
-        if: ${{ !inputs.tagsOnly }}
+        if: ${{ !inputs.tagsOnly && !startsWith(inputs.godotVersion, 'v') }}
         id: template
         uses: chuhlomin/render-template@v1.9
         with:
@@ -96,7 +96,7 @@ jobs:
             godotversion: ${{ inputs.godotVersion }}
 
       - name: Create Pull Request
-        if: ${{ !inputs.tagsOnly }}
+        if: ${{ !inputs.tagsOnly && !startsWith(inputs.godotVersion, 'v') }}
         uses: peter-evans/create-pull-request@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
