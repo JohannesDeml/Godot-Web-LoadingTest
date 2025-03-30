@@ -7,21 +7,36 @@ func _ready():
 	# Allow browser shortcuts like F12, Ctrl+R, etc.
 	if OS.get_name() == "Web":
 		JavaScriptBridge.eval("""
-			document.addEventListener('keydown', function(e) {
-				if (e.key === 'F12' || // Open DevTools
+			function isBrowserShortcut(e) {
+				return (
+					e.key === 'F12' || // Open DevTools
 					(e.ctrlKey && e.shiftKey && e.key === 'I') ||  // Open DevTools
+					(e.metaKey && e.shiftKey && e.key === 'I') ||  // Open DevTools (macOS)
 					e.key === 'F5' ||  // Refresh
 					(e.ctrlKey && e.key === 'r') ||  // Refresh
+					(e.metaKey && e.key === 'r') ||  // Refresh (macOS)
 					(e.ctrlKey && e.key === 'w') ||  // Close tab
+					(e.metaKey && e.key === 'w') ||  // Close tab (macOS)
 					(e.ctrlKey && e.key === 't') ||  // New tab
+					(e.metaKey && e.key === 't') ||  // New tab (macOS)
 					(e.ctrlKey && e.key === 'Tab') ||  // Switch tabs
+					(e.metaKey && e.key === 'Tab') ||  // Switch tabs (macOS)
 					(e.ctrlKey && e.shiftKey && e.key === 'Tab') ||  // Switch tabs (reverse)
+					(e.metaKey && e.shiftKey && e.key === 'Tab') ||  // Switch tabs (reverse, macOS)
 					(e.altKey && e.key === 'Home') ||  // Home page
 					(e.ctrlKey && e.key === 'l') ||  // Focus address bar
+					(e.metaKey && e.key === 'l') ||  // Focus address bar (macOS)
 					(e.altKey && e.key === 'Left') ||  // Back
-					(e.altKey && e.key === 'Right')) {  // Forward
-						e.stopPropagation();
-						return true;  // Allow the default browser behavior
+					(e.metaKey && e.key === '[') ||  // Back (macOS)
+					(e.altKey && e.key === 'Right') ||  // Forward
+					(e.metaKey && e.key === ']')    // Forward (macOS)
+				);
+			}
+
+			document.addEventListener('keydown', function(e) {
+				if (isBrowserShortcut(e)) {
+					e.stopPropagation();
+					return true;  // Allow the default browser behavior
 				}
 			}, true);
 		""")
