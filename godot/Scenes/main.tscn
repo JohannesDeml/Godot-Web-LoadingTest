@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://ccn457idu3pwf"]
+[gd_scene format=3 uid="uid://ccn457idu3pwf"]
 
 [ext_resource type="Script" uid="uid://2oj6kh3k5kn1" path="res://Scripts/ConstantRotation.gd" id="1_0pqr8"]
 [ext_resource type="Material" uid="uid://cf58l6x4ljvh6" path="res://Materials/floor.tres" id="2_gsolv"]
@@ -41,79 +41,79 @@ sky_custom_fov = 48.8
 ambient_light_source = 3
 ambient_light_color = Color(0.698039, 0.764706, 0.933333, 1)
 
-[node name="root" type="Node3D"]
+[node name="root" type="Node3D" unique_id=1031196032]
 
-[node name="CameraCenter" type="Node3D" parent="."]
+[node name="CameraCenter" type="Node3D" parent="." unique_id=347821589]
 transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 1, 0)
 script = ExtResource("1_0pqr8")
 rotationAxis = Vector3(0, 1, 0)
 degreesPerSecond = -45
 
-[node name="Camera3D" type="Camera3D" parent="CameraCenter"]
+[node name="Camera3D" type="Camera3D" parent="CameraCenter" unique_id=527166053]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
 fov = 60.0
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1024624681]
 transform = Transform3D(0.866025, -0.383022, 0.321394, 0, 0.642788, 0.766045, -0.5, -0.663414, 0.556671, 0, 3, 0)
 light_energy = 0.3
 shadow_enabled = true
 
-[node name="Floor" type="Node3D" parent="."]
+[node name="Floor" type="Node3D" parent="." unique_id=2124223232]
 transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
 
-[node name="FloorCollider" type="StaticBody3D" parent="Floor"]
+[node name="FloorCollider" type="StaticBody3D" parent="Floor" unique_id=233733553]
 
-[node name="FloorMesh" type="MeshInstance3D" parent="Floor/FloorCollider"]
+[node name="FloorMesh" type="MeshInstance3D" parent="Floor/FloorCollider" unique_id=780905158]
 material_override = ExtResource("2_gsolv")
 mesh = SubResource("PlaneMesh_hfqt7")
 skeleton = NodePath("../../..")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor/FloorCollider"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor/FloorCollider" unique_id=1265007666]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
 shape = SubResource("BoxShape3D_g7oir")
 
-[node name="InvisibleWalls" type="Node3D" parent="."]
+[node name="InvisibleWalls" type="Node3D" parent="." unique_id=2106268450]
 
-[node name="InvisibleWallPivot" parent="InvisibleWalls" instance=ExtResource("3_5wp4y")]
+[node name="InvisibleWallPivot" parent="InvisibleWalls" unique_id=471492740 instance=ExtResource("3_5wp4y")]
 
-[node name="InvisibleWallPivot2" parent="InvisibleWalls" instance=ExtResource("3_5wp4y")]
+[node name="InvisibleWallPivot2" parent="InvisibleWalls" unique_id=1763697043 instance=ExtResource("3_5wp4y")]
 transform = Transform3D(-5.96046e-08, 0, 1, 0, 1, 0, -1, 0, -5.96046e-08, 0, 4, 0)
 
-[node name="InvisibleWallPivot3" parent="InvisibleWalls" instance=ExtResource("3_5wp4y")]
+[node name="InvisibleWallPivot3" parent="InvisibleWalls" unique_id=1941084352 instance=ExtResource("3_5wp4y")]
 transform = Transform3D(-1, 0, -1.19209e-07, 0, 1, 0, 1.19209e-07, 0, -1, 0, 4, 0)
 
-[node name="InvisibleWallPivot4" parent="InvisibleWalls" instance=ExtResource("3_5wp4y")]
+[node name="InvisibleWallPivot4" parent="InvisibleWalls" unique_id=1693068465 instance=ExtResource("3_5wp4y")]
 transform = Transform3D(1.62921e-07, 0, -1, 0, 1, 0, 1, 0, 1.62921e-07, 0, 4, 0)
 
-[node name="Spawners" type="Node3D" parent="."]
+[node name="Spawners" type="Node3D" parent="." unique_id=1721459748]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8, 0)
 script = ExtResource("4_5yjmn")
 spawner_scene = ExtResource("5_u6kan")
 
-[node name="RotatingCube" type="CharacterBody3D" parent="."]
+[node name="RotatingCube" type="CharacterBody3D" parent="." unique_id=6087727]
 transform = Transform3D(0.853553, -0.146447, 0.5, 0.5, 0.5, -0.707107, -0.146447, 0.853553, 0.5, 0, 0, 0)
 slide_on_ceiling = false
 script = ExtResource("5_ggk1f")
 rotationAxis = Vector3(0, 1, 0)
 degreesPerSecond = -90
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="RotatingCube"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RotatingCube" unique_id=1720783462]
 transform = Transform3D(1, -2.98023e-08, -1.49012e-08, 0, 0.999999, 0, -2.23517e-08, -5.96046e-08, 1, 0.5, 0.5, -0.5)
 shape = SubResource("BoxShape3D_fhpad")
 
-[node name="RotatingCubeMesh" type="MeshInstance3D" parent="RotatingCube/CollisionShape3D"]
+[node name="RotatingCubeMesh" type="MeshInstance3D" parent="RotatingCube/CollisionShape3D" unique_id=1381910851]
 transform = Transform3D(1, 0, 6.70552e-08, -7.45058e-08, 1, 0, 2.98023e-08, 2.98023e-08, 1, 0, 0, 1.19209e-07)
 material_override = ExtResource("6_xjatr")
 mesh = SubResource("BoxMesh_8p68f")
 skeleton = NodePath("")
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=137072062]
 environment = SubResource("Environment_4ohx7")
 
-[node name="WebGL" type="Node3D" parent="."]
+[node name="WebGL" type="Node3D" parent="." unique_id=569354469]
 
-[node name="TimeTracker" type="Node3D" parent="WebGL"]
+[node name="TimeTracker" type="Node3D" parent="WebGL" unique_id=1779908112]
 script = ExtResource("8_50w6n")
 
-[node name="Common Commands" type="Node3D" parent="WebGL"]
+[node name="Common Commands" type="Node3D" parent="WebGL" unique_id=2055274895]
 script = ExtResource("9_774s3")
