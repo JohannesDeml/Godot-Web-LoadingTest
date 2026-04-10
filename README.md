@@ -18,6 +18,7 @@
 * Run commands from the console
 * Support common browser shortcuts (ctrl+t, F12, ...)
 * Automatic CI builds
+  * Using [Docker Images](https://hub.docker.com/r/barichello/godot-ci/tags)
   * Brotli & Gzip pre-compression
   * [wasm-opt](https://github.com/JohannesDeml/binaryen-wasm-opt) to reduce wasm size
   * Automatic server upload of builds
