@@ -23,20 +23,25 @@
   * [wasm-opt](https://github.com/JohannesDeml/binaryen-wasm-opt) to reduce wasm size
   * Automatic server upload of builds
 
+![Godot Build Sizes](./Documentation/godot-webgl2-build-sizes.png)
 
 ### Release WebGL2
 
 Version | Size | Link
 --- | --- | ---
-4.4.0 | 6.16 MB | https://deml.io/experiments/godot-webgl/4.4.0-webgl2
-4.3.0 | 5.35 MB | https://deml.io/experiments/godot-webgl/4.3.0-webgl2
+4.6.2 | 6.33 MB | https://deml.io/experiments/godot-webgl/4.6.2-webgl2
+4.5.2 | 6.22 MB | https://deml.io/experiments/godot-webgl/4.5.2-webgl2
+4.4.1 | 6.14 MB | https://deml.io/experiments/godot-webgl/4.4.1-webgl2
+4.3.0 | 5.34 MB | https://deml.io/experiments/godot-webgl/4.3.0-webgl2
 
 ### Debug WebGL2
 
 Version | Size | Link
 --- | --- | ---
-4.4.0 | 6.72 MB | https://deml.io/experiments/godot-webgl/4.4.0-webgl2-debug
-4.3.0 | 5.81 MB | https://deml.io/experiments/godot-webgl/4.3.0-webgl2-debug
+4.6.2 | 6.69 MB | https://deml.io/experiments/godot-webgl/4.6.2-webgl2-debug
+4.5.2 | 6.58 MB | https://deml.io/experiments/godot-webgl/4.5.2-webgl2-debug
+4.4.1 | 6.71 MB | https://deml.io/experiments/godot-webgl/4.4.1-webgl2-debug
+4.3.0 | 5.77 MB | https://deml.io/experiments/godot-webgl/4.3.0-webgl2-debug
 
 ## Platform Compatibility
 
