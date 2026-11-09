@@ -84,8 +84,11 @@ jobs:
       - name: Update project version
         if: ${{ !inputs.tagsOnly && !startsWith(inputs.godotVersion, 'v') }}
         run: |
-          # Open and save the project with the new Godot version
-          godot --headless --quit godot/project.godot
+          # Open the project in the editor to reimport all resources with the new Godot version
+          godot --headless --path godot --import
+          # Save the project settings, which updates config/features to the new Godot version
+          godot --headless --path godot --script "$GITHUB_WORKSPACE/.github/scripts/save-project-settings.gd"
+          grep 'config/features=PackedStringArray' godot/project.godot
 
       - name: Render template
         if: ${{ !inputs.tagsOnly && !startsWith(inputs.godotVersion, 'v') }}
