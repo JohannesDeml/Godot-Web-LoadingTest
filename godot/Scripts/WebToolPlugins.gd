@@ -3,9 +3,13 @@ extends Node
 # Make this a singleton by adding it to Project Settings -> Autoload
 # with the name "WebToolPlugins", using a class_name does not work for WebGL
 
+# The js counterpart (web-tool-plugins.js) is only included in the Develop template
+var _has_js_plugins := false
+
 func _ready():
 	# Allow browser shortcuts like F12, Ctrl+R, etc.
 	if OS.get_name() == "Web":
+		_has_js_plugins = JavaScriptBridge.eval("typeof WebToolPlugins !== 'undefined'", true)
 		JavaScriptBridge.eval("""
 			function isBrowserShortcut(e) {
 				return (
@@ -45,11 +49,15 @@ func show_info_panel() -> void:
 	if OS.get_name() != "Web":
 		print("WebToolPlugins.show_info_panel() called")
 		return
+	if not _has_js_plugins:
+		return
 	JavaScriptBridge.eval("WebToolPlugins._SetInfoPanelVisible(true);")
 
 func hide_info_panel() -> void:
 	if OS.get_name() != "Web":
 		print("WebToolPlugins.hide_info_panel() called")
+		return
+	if not _has_js_plugins:
 		return
 	JavaScriptBridge.eval("WebToolPlugins._SetInfoPanelVisible(false);")
 
@@ -57,16 +65,22 @@ func set_variable(variable_name: String, variable_value: String) -> void:
 	if OS.get_name() != "Web":
 		print("WebToolPlugins.set_variable() called - name: '%s', value: '%s'" % [variable_name, variable_value])
 		return
+	if not _has_js_plugins:
+		return
 	JavaScriptBridge.eval("WebToolPlugins._SetStringVariable('%s', '%s');" % [variable_name, variable_value])
 
 func add_time_tracking_event(event_name: String) -> void:
 	if OS.get_name() != "Web":
 		print("WebToolPlugins.add_time_tracking_event() called - event: '%s'" % event_name)
 		return
+	if not _has_js_plugins:
+		return
 	JavaScriptBridge.eval("WebToolPlugins._AddTimeTrackingEvent('%s');" % event_name)
 
 func add_fps_tracking_event(fps: float) -> void:
 	if OS.get_name() != "Web":
 		# Don't log anything here, since it would spam the console
+		return
+	if not _has_js_plugins:
 		return
 	JavaScriptBridge.eval("WebToolPlugins._AddFpsTrackingEvent(%f);" % fps)

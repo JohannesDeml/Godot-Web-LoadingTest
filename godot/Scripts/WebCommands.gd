@@ -12,6 +12,10 @@ var externalator
 
 func _ready():
 	if OS.has_feature("web"):
+		# The externalator interface is only defined in the Develop template
+		if not JavaScriptBridge.eval("typeof externalator !== 'undefined'", true):
+			return
+
 		_my_js_callback = JavaScriptBridge.create_callback(commandCallback)
 		externalator = JavaScriptBridge.get_interface("externalator")
 		externalator.addGodotFunction('runCommand', _my_js_callback)
